@@ -88,6 +88,7 @@
         <span class="toast-icon">✓</span>
         <span>Logged in successfully.</span>
     </div>
+    
     <?php elseif (isset($_GET['registered'])): ?>
     <div class="toast-alert" id="toastAlert">
         <span class="toast-icon">✓</span>

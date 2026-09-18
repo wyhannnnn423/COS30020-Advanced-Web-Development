@@ -28,10 +28,12 @@ include 'header.php';
                 </a>
             </div>
 
-            <div class="menu-col menu-info">
+           <div class="menu-col menu-info">
                 <span class="menu-label">Info</span>
                 <a href="about.php">About This Project</a>
-                <a href="profile.php">View Profile</a>
+                <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
+                    <a href="profile.php">View Profile</a>
+                <?php endif; ?>
             </div>
         </div>
 
