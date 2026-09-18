@@ -1,6 +1,9 @@
 /* style/main.css - Gundam Hub, hero-banner style */
 
 
+/* Section purpose: styles for base & reset styles. */
+
+
 /* ==========================================================================
    Base & Reset Styles
    ========================================================================== */
@@ -39,6 +42,9 @@ a {
     color: inherit;
     text-decoration: none;
 }
+
+
+/* Section purpose: styles for accessibility. */
 
 
 /* ==========================================================================
@@ -369,6 +375,9 @@ button:focus-visible {
         transform: rotate(-45deg) translate(5px, -5px);
     }
 }
+
+
+/* Section purpose: styles for catalog & series guide. */
 
 
 /* ==========================================================================
@@ -1086,7 +1095,7 @@ button:focus-visible {
     }
     .detail-gallery {
         grid-template-columns: 1fr;
-        /* 小屏幕画廊也是一列 */
+        /* Single-column gallery layout on small screens */
     }
     .detail-sidebar {
         width: 100%;
@@ -1115,6 +1124,9 @@ button:focus-visible {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+
+/* Section purpose: styles for activities & workshops. */
 
 
 /* ==========================================================================
@@ -1163,6 +1175,9 @@ button:focus-visible {
     color: #38bdf8;
     font-weight: 600;
 }
+
+
+/* Section purpose: styles for operational notice box. */
 
 
 /* ==========================================================================
@@ -1232,6 +1247,9 @@ button:focus-visible {
         white-space: nowrap;
     }
 }
+
+
+/* Section purpose: styles for hero section & keyframe slider. */
 
 
 /* ==========================================================================
@@ -1426,6 +1444,9 @@ body.dark-theme {
 }
 
 
+/* Section purpose: styles for main content & informational sections. */
+
+
 /* ==========================================================================
    Main Content & Informational Sections
    ========================================================================== */
@@ -1540,6 +1561,9 @@ main {
 }
 
 
+/* Section purpose: styles for footer. */
+
+
 /* ==========================================================================
    Footer
    ========================================================================== */
@@ -1558,6 +1582,9 @@ footer {
 footer a {
     color: #7fa8d9;
 }
+
+
+/* Section purpose: styles for full-screen navigation menu page. */
 
 
 /* ==========================================================================
@@ -1682,6 +1709,9 @@ footer a {
 }
 
 
+/* Section purpose: styles for back-to-top button with conic scroll progress. */
+
+
 /* ==========================================================================
    Back-to-Top Button with Conic Scroll Progress
    ========================================================================== */
@@ -1765,6 +1795,9 @@ footer a {
 .share-btn:hover {
     background: #4d84c2;
 }
+
+
+/* Section purpose: styles for community page styles. */
 
 
 /* ==========================================================================

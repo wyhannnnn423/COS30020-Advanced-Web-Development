@@ -152,9 +152,7 @@ unset($_SESSION['activity_form_old'], $_SESSION['activity_field_errors']);
                 <select name="session_slot" id="session_slot">
                     <option value="">-- Select a Session --</option>
                     <?php
-                    // Fixed: value and displayed label now describe the SAME
-                    // date/time, and the "selected" check compares against
-                    // the same string that's actually stored in $old.
+                    
                     $slot_options = [
                         'Sat 6 Dec, 10:00 AM' => 'Sat 6 Dec, 10:00 AM',
                         'Sat 6 Dec, 2:00 PM'  => 'Sat 6 Dec, 2:00 PM',
@@ -174,7 +172,7 @@ unset($_SESSION['activity_form_old'], $_SESSION['activity_field_errors']);
 
                 <div class="auth-actions">
                     <button type="submit" class="card-btn">Confirm Registration</button>
-                    <!-- Cancel just takes the user back where they came from, no reset needed -->
+                    <!-- Cancel just takes the user back where they came from -->
                     <a href="<?php echo htmlspecialchars($came_from); ?>" class="card-btn secondary-btn">Cancel</a>
                 </div>
             </form>

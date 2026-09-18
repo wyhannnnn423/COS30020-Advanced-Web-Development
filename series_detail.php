@@ -72,7 +72,7 @@ if ($item) {
                     <?php if ($item['type'] === 'anime'): ?>
                     <a href="activity_reg.php?activity=screening-<?php echo urlencode($id); ?>&from=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>" class="card-btn">Book Screening</a>
                     <?php elseif ($item['type'] === 'game'): ?>
-                        <a href="activity_reg.php?activity=session-<?= urlencode($id) ?>" class="card-btn">Join a Session</a>
+                        <a href="activity_reg.php?activity=session-<?php echo urlencode($id); ?>&from=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>" class="card-btn">Join a Session</a>
                     <?php endif; ?>
                     
                     <!-- Return anchor link back to the catalog position -->
