@@ -1,0 +1,10 @@
+First Name:Wong|LastName:Yan Han|Contact:01110823685|Email:104392138@students.swinburne.edu.my|ActivityDateTime:2026-09-20T13:30|ActivityTitle:Screening: Mobile Suit Gundam RG XARX-ZERO
+First Name:Wong|LastName:Yan Han|Contact:01110823685|Email:104392138@students.swinburne.edu.my|ActivityDateTime:2026-09-20T13:30|ActivityTitle:Screening: Mobile Suit Gundam RG XARX-ZERO
+First Name:Wong|LastName:Han|Contact:01110823685|Email:104392138@students.swinburne.edu.my|SessionSlot:2026-10-04 10:00 AM|ActivityTitle:Screening: Mobile Suit Gundam GQuuuuuuX
+First Name:Wong|LastName:Han|Contact:01110823685|Email:104392138@students.swinburne.edu.my|SessionSlot:2026-09-27 10:00 AM|ActivityTitle:Screening: Mobile Suit Gundam RG XARX-ZERO
+First Name:Wong|LastName:Han|Contact:01110823685|Email:104392138@students.swinburne.edu.my|SessionSlot:2026-10-04 10:00 AM|ActivityTitle:Screening: Mobile Suit Gundam GQuuuuuuX
+First Name:Wong|LastName:Han|Contact:01110823685|Email:104392138@students.swinburne.edu.my|SessionSlot:2026-10-04 10:00 AM|ActivityTitle:Game Session: Mobile Suit Gundam Extreme Vs. Maxiboost ON
+First Name:Wong|LastName:Han|Contact:01110823685|Email:104392138@students.swinburne.edu.my|SessionSlot:2026-09-27 02:00 PM|ActivityTitle:Game Session: Mobile Suit Gundam Extreme Vs. Maxiboost ON
+First Name:Wong|LastName:Han|Contact:01110823685|Email:104392138@students.swinburne.edu.my|SessionSlot:2026-09-27 10:00 AM|ActivityTitle:Screening: Mobile Suit Gundam RG XARX-ZERO
+First Name:Wong|LastName:Han|Contact:01110823685|Email:104392138@students.swinburne.edu.my|SessionSlot:2026-10-04 10:00 AM|ActivityTitle:Screening: Mobile Suit Gundam RG XARX-ZERO
+First Name:Wong|LastName:Han|Contact:01110823685|Email:104392138@students.swinburne.edu.my|SessionSlot:2026-09-27 02:00 PM|ActivityTitle:Screening: Mobile Suit Gundam RG XARX-ZERO

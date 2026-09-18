@@ -11,8 +11,13 @@
 </head>
 
 <body>
+    <?php
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
-    <?php $current_page = basename($_SERVER['PHP_SELF']); ?>
+
+    $current_page = basename($_SERVER['PHP_SELF']); ?>
 
     <nav class="topnav">
         <div class="nav-left">
@@ -61,7 +66,33 @@
         </div>
 
         <div class="nav-right">
-            <a href="login.php">Log In</a>
-            <a href="registration.php" class="nav-cta">Register</a>
+            <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
+                <a href="profile.php" class="nav-user">
+                    Hi, <?php echo htmlspecialchars($_SESSION['first_name']); ?>
+                </a>
+                <a href="logout.php" class="nav-cta">Log Out</a>
+            <?php else: ?>
+                <a href="login.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Log In</a>
+                <a href="registration.php" class="nav-cta">Register</a>
+            <?php endif; ?>
         </div>
     </nav>
+
+    <?php if (isset($_GET['booked'])): ?>
+    <div class="toast-alert" id="toastAlert">
+        <span class="toast-icon">✓</span>
+        <span>You're registered! We'll see you there.</span>
+    </div>
+    <?php elseif (isset($_GET['login_success'])): ?>
+    <div class="toast-alert" id="toastAlert">
+        <span class="toast-icon">✓</span>
+        <span>Logged in successfully.</span>
+    </div>
+    <?php elseif (isset($_GET['registered'])): ?>
+    <div class="toast-alert" id="toastAlert">
+        <span class="toast-icon">✓</span>
+        <span>Account created! Please log in.</span>
+    </div>
+    <?php endif; ?>
+
+</body>

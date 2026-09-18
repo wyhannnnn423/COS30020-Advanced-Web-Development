@@ -5,7 +5,7 @@ include 'header.php';
 
     <section class="menu-screen">
         <img src="img/banner/Menu.jpg" alt="Banner" class="menu-bg">
-        <div class="menu-overlay"></div>
+        <div class="menu-overlay"></div>    
 
         <div class="menu-content">
             <div class="menu-col menu-main">
@@ -41,4 +41,5 @@ include 'header.php';
             <p>Gundam imagery &copy; Sunrise / Bandai Namco Filmworks Inc.</p>
         </div>
     </section>
+
 
