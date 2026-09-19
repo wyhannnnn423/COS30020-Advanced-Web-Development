@@ -61,10 +61,30 @@
             
             <a href="community.php" class="<?= in_array($current_page, ['community.php', 'community_detail.php'], true) ? 'active' : ''; ?>">Community</a>
 
-            <!-- Sliding underline indicator -->
+            <!-- Sliding underline indicator (desktop only) -->
             <span class="nav-indicator"></span>
+
+            <!--
+                Mobile-only auth block. On desktop this is hidden by CSS
+                (the .nav-right block below is used instead). On mobile,
+                .nav-right is hidden and this shows inside the dropdown
+                menu instead, so Log In / Register / Log Out are reachable
+                from the hamburger menu.
+            -->
+            <div class="nav-mobile-auth">
+                <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
+                    <a href="profile.php" class="nav-user">
+                        Hi, <?php echo htmlspecialchars($_SESSION['first_name']); ?>
+                    </a>
+                    <a href="logout.php" class="nav-cta">Log Out</a>
+                <?php else: ?>
+                    <a href="login.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Log In</a>
+                    <a href="registration.php" class="nav-cta">Register</a>
+                <?php endif; ?>
+            </div>
         </div>
 
+        <!-- Desktop-only auth buttons (hidden on mobile, see .nav-mobile-auth above) -->
         <div class="nav-right">
             <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
                 <a href="profile.php" class="nav-user">
@@ -93,6 +113,12 @@
     <div class="toast-alert" id="toastAlert">
         <span class="toast-icon">✓</span>
         <span>Account created! Please log in.</span>
+    </div>
+
+    <?php elseif (isset($_GET['logged_out'])): ?>
+    <div class="toast-alert" id="toastAlert">
+        <span class="toast-icon">✓</span>
+        <span>You've been logged out.</span>
     </div>
     <?php endif; ?>
 

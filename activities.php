@@ -85,7 +85,7 @@ require_once 'data_activities.php'; // loads $workshops and $competitions
                                     return to (Cancel button / after successful booking),
                                     instead of relying on the unreliable HTTP_REFERER.
                                 -->
-                                <a href="activity_reg.php?workshop=<?= urlencode($ws_id) ?>&from=<?= urlencode($_SERVER['REQUEST_URI']) ?>" class="card-btn">Book This Slot</a>
+                                <a href="activity_reg.php?workshop=<?= urlencode($ws_id) ?>&from=<?= urlencode($_SERVER['REQUEST_URI'] . '#' . $ws_id) ?>" class="card-btn">Book This Slot</a>
                             </div>
                         </div>
                     <?php endforeach; ?>
