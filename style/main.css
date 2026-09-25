@@ -2886,3 +2886,100 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         transition-duration: 0.01ms !important;
     }
 }
+
+
+/* ==========================================================================
+   About Page
+   ========================================================================== */
+
+.about-page {
+    padding: 120px 4vw 60px;
+    display: flex;
+    justify-content: center;
+}
+
+.about-container {
+    max-width: 1100px;
+    width: 100%;
+}
+
+.about-container h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+}
+
+.about-section {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #202832;
+}
+
+.about-section h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.2rem;
+    color: #7fa8d9;
+    margin-bottom: 10px;
+}
+
+.about-section p {
+    color: #b8c2cf;
+    line-height: 1.6;
+}
+
+.about-list {
+    list-style: none;
+    padding: 0;
+}
+
+.about-list li {
+    color: #b8c2cf;
+    padding: 6px 0;
+    border-bottom: 1px solid #12181f;
+}
+
+.about-list li::before {
+    content: '✓ ';
+    color: #7fa8d9;
+    margin-right: 6px;
+}
+
+.credit-section {
+    border-bottom: none;
+}
+
+.about-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 24px;
+    width: 100%;
+    align-items: start;
+}
+
+.about-gallery .gallery-item {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #202832;
+    background-color: #0d131a;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.about-gallery .gallery-item:hover {
+    transform: translateY(-4px);
+    border-color: #3b6ea5;
+}
+
+.about-gallery .gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .about-gallery {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
