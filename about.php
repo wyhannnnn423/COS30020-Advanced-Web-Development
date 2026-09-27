@@ -56,7 +56,7 @@ include 'header.php';
             <ul class="about-list">
                 <li>The upload feature on the Community page is scoped for Assignment 2, as stated in the brief.</li>
                 <li>The Smart Feature (Task 2's fourth main menu option) is reserved for Assignment 2.</li>
-                <li>The Gunpla/Collector Figure purchase flow (order.php) is a simulated form that writes to a text file; no real payment processing is implemented, as the brief does not require e-commerce.</li>
+                <li>The order feature on the product page is scoped for Assignment</li>             
             </ul>
         </section>
 
