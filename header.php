@@ -120,6 +120,17 @@
         <span class="toast-icon">✓</span>
         <span>You've been logged out.</span>
     </div>
+    
+    <?php elseif (isset($_GET['profile_updated'])): ?>
+    <div class="toast-alert" id="toastAlert">
+        <span class="toast-icon">✓</span>
+        <span>Profile updated successfully.</span>
+    </div>
+    
+    <?php elseif (isset($_GET['password_reset'])): ?>
+    <div class="toast-alert" id="toastAlert">
+        <span class="toast-icon">✓</span>
+        <span>Password reset successfully. Please log in.</span>
+    </div>
     <?php endif; ?>
-
 </body>

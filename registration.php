@@ -56,6 +56,17 @@ include 'header.php';
             </div>
             <span class="error-message" id="confirm_password_error"></span>
 
+            <label for="security_question">Security Question</label>
+            <select name="security_question" id="security_question">
+                <option value="">-- Select a Question --</option>
+                <option value="first_pet">What was the name of your first pet?</option>
+                <option value="live_street">What street do you live in?</option>
+                <option value="favorite_teacher">What was your favorite teacher's name?</option>
+            </select>
+
+            <label for="security_answer">Your Answer</label>
+            <input type="text" name="security_answer" id="security_answer">
+
             <div class="auth-actions">
                 <button type="submit" class="card-btn">Register</button>
                 <button type="reset" class="card-btn secondary-btn">Reset</button>
