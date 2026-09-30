@@ -39,7 +39,7 @@ if (file_exists($data_file)) {
     <div class="profile-card">
         <?php 
         $gender = isset($user['Gender']) ? strtolower($user['Gender']) : 'female';
-        $default_img = ($gender === 'male') ? 'img/profile_images/male-default.jpg' : 'img/profile_images/female-default.jpg';
+        $default_img = ($gender === 'male') ? 'img/avatars/male-default.jpg' : 'img/avatars/female-default.jpg';
         ?>
         <img src="<?php echo htmlspecialchars($default_img); ?>" alt="Profile photo" class="profile-photo">
 

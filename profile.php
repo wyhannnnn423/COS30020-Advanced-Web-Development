@@ -13,7 +13,7 @@ include 'header.php';
 
 <main class="page profile-page">
     <div class="profile-card">
-        <img src="img/profile_images/your-photo.jpg" alt="Yan Han Wong" class="profile-photo">
+        <img src="img/avatars/your-photo.jpg" alt="Yan Han Wong" class="profile-photo">
 
         <h1>Yan Han Wong</h1>
 
