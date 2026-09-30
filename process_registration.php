@@ -1,13 +1,13 @@
 <?php
-// Initialize the error array and define file paths for user data storage[cite: 1]
+// Initialize the error array and define file paths for user data storage
 $errors = [];
 $data_dir = 'data/User';
 $data_file = $data_dir . '/user.txt';
 
-// Proceed only if the request method is POST[cite: 1]
+// Proceed only if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Retrieve and sanitize inputs by trimming whitespace and removing the '|' delimiter to prevent file corruption[cite: 1]
+    // Retrieve and sanitize inputs by trimming whitespace and removing the '|' delimiter to prevent file corruption
     $first_name = str_replace('|', '', trim($_POST['first_name'] ?? ''));
     $last_name = str_replace('|', '', trim($_POST['last_name'] ?? ''));
     $dob = str_replace('|', '', trim($_POST['dob'] ?? ''));
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $security_question = str_replace('|', '', trim($_POST['security_question'] ?? ''));
     $security_answer = str_replace('|', '', trim($_POST['security_answer'] ?? ''));
     
-    // Passwords do not need the delimiter stripped before hashing, but retrieve them safely[cite: 1]
+    // Passwords do not need the delimiter stripped before hashing, but retrieve them safely
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
 
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Form Validation 
     // ==========================================================================
 
-    // 1. Mandatory Fields Check: Ensure no core fields are left blank[cite: 1]
+    // 1. Mandatory Fields Check: Ensure no core fields are left blank
     if ($first_name === '' || $last_name === '' || $dob === '' || $gender === '' || $email === '' || $hometown === '' || $password === '' || $confirm_password === '') {
         $errors[] = 'All fields are required.';
     }
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Please select a security question and provide an answer.';
     }
 
-    // 3. Name Format Check: Ensure names contain only alphabetical characters and spaces[cite: 1]
+    // 3. Name Format Check: Ensure names contain only alphabetical characters and spaces
     if ($first_name !== '' && !preg_match('/^[A-Za-z ]+$/', $first_name)) {
         $errors[] = 'First name may only contain letters and spaces.';
     }
@@ -45,12 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Last name may only contain letters and spaces.';
     }
 
-    // 4. Email Format Check: Validate against standard email structures[cite: 1]
+    // 4. Email Format Check: Validate against standard email structures
     if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = 'Please enter a valid email address.';
     }
 
-    // 5. Password Complexity Check: Require minimum length, at least one number, and one symbol[cite: 1]
+    // 5. Password Complexity Check: Require minimum length, at least one number, and one symbol
     if ($password !== '') {
         if (strlen($password) < 8) {
             $errors[] = 'Password must be at least 8 characters long.';
@@ -63,12 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // 6. Password Confirmation Check: Ensure both password fields match exactly[cite: 1]
+    // 6. Password Confirmation Check: Ensure both password fields match exactly
     if ($password !== '' && $confirm_password !== '' && $password !== $confirm_password) {
         $errors[] = 'Passwords do not match.';
     }
 
-    // 7. Email Uniqueness Check: Prevent duplicate registrations with the same email[cite: 1]
+    // 7. Email Uniqueness Check: Prevent duplicate registrations with the same email
     if ($email !== '' && file_exists($data_file)) {
         $existing_lines = file($data_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         foreach ($existing_lines as $line) {
@@ -83,21 +83,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Data Storage & Redirect
     // ==========================================================================
 
-    // Proceed to save the record only if validation passed with zero errors[cite: 1]
+    // Proceed to save the record only if validation passed with zero errors
     if (empty($errors)) {
         
-        // Create the storage directory with appropriate permissions if it does not exist[cite: 1]
+        // Create the storage directory with appropriate permissions if it does not exist
         if (!file_exists($data_dir)) {
             mkdir($data_dir, 0777, true);
         }
 
-        // Securely hash the password before writing it to the file[cite: 1]
+        // Securely hash the password before writing it to the file
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         
         // Hash the security answer for secure storage (converted to lowercase for case-insensitive verification later)
         $hashed_answer = password_hash(strtolower(trim($security_answer)), PASSWORD_DEFAULT);
 
-        // Construct the delimited record string for the text database, appending the security question and hashed answer[cite: 1]
+        // Construct the delimited record string for the text database, appending the security question and hashed answer
         $record = 'First Name:' . $first_name
                 . '|LastName:' . $last_name
                 . '|DOB:' . $dob
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 . '|SecurityQuestion:' . $security_question
                 . '|SecurityAnswer:' . $hashed_answer;
 
-        // Perform an atomic write operation with an exclusive lock (LOCK_EX) to prevent race conditions[cite: 1]
+        // Perform an atomic write operation with an exclusive lock (LOCK_EX) to prevent race conditions
         if (file_put_contents($data_file, $record . PHP_EOL, FILE_APPEND | LOCK_EX) !== false) {
             header('Location: login.php?registered=1');
             exit;
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // ==========================================================================
 // Error Display Template
 // ==========================================================================
-// If the script reaches this point and the $errors array is not empty, render the error UI[cite: 1]
+// If the script reaches this point and the $errors array is not empty, render the error UI
 if (!empty($errors)): 
 ?>
 <?php 

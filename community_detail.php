@@ -51,7 +51,7 @@ if ($post) {
 
 <?php else: ?>
 
-    <!-- 404 fallback state for non-existent IDs[cite: 5] -->
+    <!-- 404 fallback state for non-existent IDs-->
     <div class="detail-not-found">
         <h1>Contribution not found</h1>
         <p>This contribution may have been removed or the link is incorrect.</p>
