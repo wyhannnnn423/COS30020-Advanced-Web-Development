@@ -71,7 +71,7 @@ include 'header.php';
         <section class="about-section">
             <h2>Video Presentation</h2>
             <p>
-                <a href="YOUR_YOUTUBE_LINK_HERE" target="_blank" rel="noopener">Watch the demo video on YouTube</a>
+                <a href="https://youtu.be/SO1gt2uGhgc" target="_blank" rel="noopener">Watch the demo video on YouTube</a>
             </p>
         </section>
 
