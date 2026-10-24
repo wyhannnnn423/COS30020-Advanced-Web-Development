@@ -6,6 +6,33 @@
 // Columns marked "EXTRA" are not in the brief; they are needed to keep
 // Assignment 1 features working. Remove them here if the lecturer says no.
 
+// Number of columns in all tables below. When the database already has this many, nothing is
+// missing and setup_database() can be skipped (saves about 25 queries on every page load).
+// If you add or remove a column in the CREATE TABLE statements, change this number too.
+const SCHEMA_COLUMNS = 56;
+const SCHEMA_TABLES  = ['user_table', 'account_table', 'smart_feature_table', 'activity_table',
+                        'community_table', 'order_table', 'product_stock'];
+
+function schema_is_current(mysqli $db): bool
+{
+    try {
+        $placeholders = implode(',', array_fill(0, count(SCHEMA_TABLES), '?'));
+        $stmt = $db->prepare(
+            "SELECT COUNT(*) FROM information_schema.COLUMNS
+             WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME IN ($placeholders)"
+        );
+        $tables = SCHEMA_TABLES;
+        $stmt->bind_param(str_repeat('s', count($tables)), ...$tables);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+        return (int)$count === SCHEMA_COLUMNS;
+    } catch (mysqli_sql_exception $e) {
+        return false;   // can't tell (some hosts restrict information_schema): run the full setup
+    }
+}
+
 function setup_database(mysqli $db): void
 {
     // ---------------------------------------------------------------- user_table
@@ -70,6 +97,7 @@ function setup_database(mysqli $db): void
         title              VARCHAR(100) NULL,       -- EXTRA: A1 post title
         caption            TEXT         NULL,       -- EXTRA: A1 post caption
         tag                VARCHAR(30)  NULL,       -- EXTRA: A1 filter category
+        email              VARCHAR(50)  NULL,       -- EXTRA: who posted it (shown on their profile)
         PRIMARY KEY (id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
@@ -113,6 +141,7 @@ function setup_database(mysqli $db): void
     ensure_column($db, 'community_table', 'title',             'VARCHAR(100) NULL');
     ensure_column($db, 'community_table', 'caption',           'TEXT NULL');
     ensure_column($db, 'community_table', 'tag',               'VARCHAR(30) NULL');
+    ensure_column($db, 'community_table', 'email',             'VARCHAR(50) NULL');
 
     seed_users($db);
     seed_smart_features($db);
@@ -125,17 +154,9 @@ function setup_database(mysqli $db): void
 // Adds $column to $table when it is not there yet. Names are hard-coded in this file.
 function ensure_column(mysqli $db, string $table, string $column, string $definition): void
 {
-    $stmt = $db->prepare(
-        'SELECT COUNT(*) FROM information_schema.COLUMNS
-         WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = ?'
-    );
-    $stmt->bind_param('ss', $table, $column);
-    $stmt->execute();
-    $stmt->bind_result($count);
-    $stmt->fetch();
-    $stmt->close();
-
-    if ((int)$count === 0) {
+    // $table and $column are fixed names written in this file, never visitor input.
+    $found = $db->query("SHOW COLUMNS FROM `$table` LIKE '$column'")->num_rows;
+    if ($found === 0) {
         $db->query("ALTER TABLE `$table` ADD COLUMN `$column` $definition");
     }
 }
@@ -157,7 +178,7 @@ function seed_users(mysqli $db): void
     // Every dummy account also gets the security question/answer that registration asks for
     // (question "first_pet", answer "gundam").
     $users = [
-        ['admin@swin.edu.my',         'Admin',    'Admin', null,         'Male', 'Kuching',         null,                       'admin',     'admin'],
+        ['admin@swin.edu.my',         'Admin',    'Admin', null,         'Male', 'Kuching',         null,                       (defined('ADMIN_SEED_PASSWORD') ? ADMIN_SEED_PASSWORD : 'admin'),     'admin'],
         ['andrewkuan@swin.edu.my',    'Andrew',   'Kuan',  '2006-07-31', 'Male', 'Gelugor',         null,                       'User@1234', 'user'],
         ['dariusho@swin.edu.my',      'Darius',   'Ho',    '2006-02-26', 'Male', 'Semenyih',        null,                       'User@1234', 'user'],
         ['jerichoting@swin.edu.my',   'Jericho',  'Ting',  '2006-04-23', 'Male', 'Miri',            null,                       'User@1234', 'user'],
@@ -253,32 +274,32 @@ function seed_community(mysqli $db): void
         return;
     }
 
-    // first, last, image, related_activity, status, title, caption, tag
+    // first, last, image, related_activity, status, title, caption, tag, poster's email
     $rows = [
         ['Yan Han', 'Wong', 'img/community/build_01.jpg',      'Basic Assembly',            'approved',
             'First Gunpla work: water decaling',
             'Trying out water decaling on HGUC Zeta Gundam. Took a while to get the placement right so the decals did not sit crooked.',
-            'Workshop'],
+            'Workshop', 'yanhanwong@swin.edu.my'],
         ['Andrew',  'Kuan', 'img/community/build_02.jpg',      'Basic Assembly',            'approved',
             'HGBF Wing Gundam Zero Honoo: Basic Build',
             'First time building a Gunpla kit. Took about 4 hours, still a work in progress. Planning to add panel lining next.',
-            'Gunpla Build'],
+            'Gunpla Build', 'andrewkuan@swin.edu.my'],
         ['Darius',  'Ho',   'img/community/discussion_01.jpg', 'Series Guide',              'approved',
             'Tomino writes his ginger characters surprisingly well',
             'Been rewatching the UC timeline and noticed most of the red-haired characters are some of the best-written in the series.',
-            'Anime Discussion'],
+            'Anime Discussion', 'dariusho@swin.edu.my'],
         ['Jericho', 'Ting', 'img/community/game_01.jpg',       'SD Gundam Battle Alliance', 'approved',
             'Clutch win in SD Gundam Battle Alliance',
             'Down to my last bit of HP, landed the beam saber finisher just before the Zaku could recover.',
-            'Game Highlight'],
+            'Game Highlight', 'jerichoting@swin.edu.my'],
     ];
 
     $stmt = $db->prepare(
-        'INSERT INTO community_table (first_name, last_name, contribution_image, related_activity, status, title, caption, tag)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+        'INSERT INTO community_table (first_name, last_name, contribution_image, related_activity, status, title, caption, tag, email)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
-    foreach ($rows as [$first, $last, $img, $related, $status, $title, $caption, $tag]) {
-        $stmt->bind_param('ssssssss', $first, $last, $img, $related, $status, $title, $caption, $tag);
+    foreach ($rows as [$first, $last, $img, $related, $status, $title, $caption, $tag, $email]) {
+        $stmt->bind_param('sssssssss', $first, $last, $img, $related, $status, $title, $caption, $tag, $email);
         $stmt->execute();
     }
 }

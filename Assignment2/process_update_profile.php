@@ -2,6 +2,7 @@
 require_once 'includes/auth.php';
 require_once 'includes/db.php';
 require_once 'includes/upload.php';
+require_once 'includes/accounts.php';
 require_role('user');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -117,6 +118,7 @@ if (empty($errors)) {
         );
         $upd->bind_param('sssssssss', $email, $first_name, $last_name, $dob, $gender, $hometown, $photo_path, $resume_path, $old_email);
         $upd->execute();
+        move_user_records($db, $old_email, $email);   // bookings, orders and posts follow the new email
 
         if ($new_pass !== '') {
             $hash = password_hash($new_pass, PASSWORD_DEFAULT);

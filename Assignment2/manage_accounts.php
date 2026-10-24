@@ -2,6 +2,7 @@
 require_once 'includes/auth.php';
 require_once 'includes/db.php';
 require_once 'includes/upload.php';
+require_once 'includes/accounts.php';
 require_once 'includes/admin_common.php';
 require_role('admin');   // admins only, otherwise redirect to login.php
 
@@ -138,6 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $u = $db->prepare('UPDATE user_table SET email = ?, first_name = ?, last_name = ?, dob = ?, gender = ?, hometown = ? WHERE email = ?');
                     $u->bind_param('sssssss', $form['email'], $form['first_name'], $form['last_name'], $dob, $form['gender'], $form['hometown'], $orig);
                     $u->execute();
+                    move_user_records($db, $orig, $form['email']);   // bookings, orders and posts follow the new email
 
                     $a = $db->prepare('UPDATE account_table SET type = ? WHERE email = ?');
                     $a->bind_param('ss', $form['type'], $form['email']);

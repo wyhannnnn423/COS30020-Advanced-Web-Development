@@ -80,11 +80,11 @@ if (post_too_large()) {
 
             $status = 'pending';   // an admin approves it before it appears on the Community page
             $ins = $db->prepare(
-                'INSERT INTO community_table (first_name, last_name, contribution_image, related_activity, status, title, caption, tag)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+                'INSERT INTO community_table (first_name, last_name, contribution_image, related_activity, status, title, caption, tag, email)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
             );
-            $ins->bind_param('ssssssss', $user['first_name'], $user['last_name'], $img_path,
-                $form['related_activity'], $status, $form['title'], $form['caption'], $form['tag']);
+            $ins->bind_param('sssssssss', $user['first_name'], $user['last_name'], $img_path,
+                $form['related_activity'], $status, $form['title'], $form['caption'], $form['tag'], $_SESSION['email']);
             $ins->execute();
 
             // Leave the form and show the "post submitted" alert on the Community page.

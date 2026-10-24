@@ -20,6 +20,12 @@ $stmt->bind_param('s', $_SESSION['email']);
 $stmt->execute();
 $my_orders = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
+// This user's own community posts (any status), newest first
+$stmt = $db->prepare('SELECT id, title, related_activity, tag, status FROM community_table WHERE email = ? ORDER BY id DESC');
+$stmt->bind_param('s', $_SESSION['email']);
+$stmt->execute();
+$my_posts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
 $photo = 'img/avatars/female-default.jpg';
 if ($user) {
     $photo = !empty($user['profile_image']) && is_file($user['profile_image'])
@@ -88,6 +94,37 @@ include 'header.php';
                         </tbody>
                     </table>
                 </div>
+                <?php endif; ?>
+            </section>
+
+            <section class="profile-side" id="my-posts">
+                <h2>My Community Posts</h2>
+                <p class="profile-side-desc">What you shared with the community. New posts stay pending until an admin approves them.</p>
+                <?php if (empty($my_posts)): ?>
+                    <p class="bookings-empty">You have not posted anything yet. <a href="community_add.php">Share a build</a>.</p>
+                <?php else: ?>
+                <div class="table-wrap table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Post</th><th>Category</th><th>Status</th><th></th></tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($my_posts as $post): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($post['title'] ?: $post['related_activity']) ?></td>
+                                <td><?= htmlspecialchars($post['tag'] ?? '-') ?></td>
+                                <td><span class="status-badge status-<?= htmlspecialchars($post['status']) ?>"><?= htmlspecialchars(ucfirst($post['status'])) ?></span></td>
+                                <td>
+                                    <?php if ($post['status'] === 'approved'): ?>
+                                        <a href="community_detail.php?id=<?= (int)$post['id'] ?>" class="btn-sm">View</a>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="profile-side-desc"><a href="community_add.php">+ Add another post</a></p>
                 <?php endif; ?>
             </section>
         </div>
