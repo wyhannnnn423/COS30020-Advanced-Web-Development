@@ -121,7 +121,7 @@ include 'header.php';
         <p class="auth-subtitle">Step 1 of 3: delivery details. Next you pay by QR and upload your proof of payment.</p>
 
         <div class="order-summary">
-            <img src="<?= htmlspecialchars($product['image']) ?>" alt="">
+            <?php if (product_has_photo($product)): ?><img src="<?= htmlspecialchars($product['image']) ?>" alt=""><?php endif; ?>
             <div>
                 <strong><?= htmlspecialchars(trim($product['name'])) ?></strong>
                 <span><?= money(product_price($product)) ?> each<?= stock_label($stock) !== '' ? ' &middot; ' . htmlspecialchars(stock_label($stock)) : '' ?></span>

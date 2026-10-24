@@ -69,6 +69,7 @@ $back_anchor = in_array($type, $figure_types, true) ? 'cat-collector-figures' : 
 
     <div class="products-grid">
         <?php foreach ($list as $product): ?>
+        <?php if (!product_has_photo($product)) { continue; } // no photo yet: not shown in the shop ?>
         <?php $st = stock_for($stock_map, $product['id']); $label = stock_label($st); $buyable = is_buyable($st); ?>
         <div class="product-card<?= $buyable ? '' : ' is-out' ?>">
             <div class="product-thumb">

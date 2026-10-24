@@ -114,8 +114,14 @@ include 'header_admin.php';
             <?php endif; ?>
             <?php foreach ($rows as $p): $s = $p['st']; ?>
                 <tr>
-                    <td><img class="thumb" src="<?= htmlspecialchars($p['image']) ?>" alt=""></td>
-                    <td><?= htmlspecialchars(trim($p['name'])) ?><br><span class="form-hint"><?= htmlspecialchars($p['id']) ?></span></td>
+                    <td>
+                        <?php if (product_has_photo($p)): ?>
+                            <img class="thumb" src="<?= htmlspecialchars($p['image']) ?>" alt="">
+                        <?php else: ?>
+                            <span class="form-hint">No photo</span>
+                        <?php endif; ?>
+                    </td>
+                    <td><?= htmlspecialchars(trim($p['name'])) ?><br><span class="form-hint"><?= htmlspecialchars($p['id']) ?><?= product_has_photo($p) ? '' : ' &middot; hidden in the shop until its photo is added' ?></span></td>
                     <td><?= htmlspecialchars(trim($p['price'])) ?></td>
                     <td>
                         <?php if (!$s['available']): ?>

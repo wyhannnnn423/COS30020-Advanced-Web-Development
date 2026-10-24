@@ -1,65 +1,164 @@
 <?php
-// data_products.php: the shop catalogue, shared by product_list.php and the order pages.
+// data_products.php: the shop catalogue, shared by product_list.php, the order pages and the
+// admin product page.
+//
+// To add a product, add one line to the right group below:
+//     kit('id', 'Name shown in the shop', 80),
+//   - id    : lower case, unique. The photos are img/kits/<id>.jpg and img/kits/<id>-hover.jpg.
+//   - price : a number in RM (80 or 52.5), shown as "RM 80" / "RM 52.50".
+//   - A 4th value only if the photo has a different file name: kit('id', 'Name', 150, 'other-name').
+// The order of the lines is the order in the shop.
 
-function product_catalogue(): array
+// One product. Everything that can be worked out from the id is worked out here, once.
+function kit(string $id, string $name, float $price, ?string $photo = null): array
+{
+    $photo = $photo ?? $id;
+    return [
+        'id'          => $id,
+        'name'        => $name,
+        'image'       => "img/kits/$photo.jpg",
+        'hover_image' => "img/kits/$photo-hover.jpg",
+        'amount'      => $price,                 // the number, used for ordering
+        'price'       => format_rm($price),      // the text, shown in the shop
+    ];
+}
+
+// 80 -> "RM 80", 1500 -> "RM 1,500", 52.5 -> "RM 52.50"
+function format_rm(float $amount): string
+{
+    return 'RM ' . number_format($amount, floor($amount) == $amount ? 0 : 2);
+}
+
+function product_catalogue_raw(): array
 {
     return [
-    // --- Model Kits ---
     'eg' => [
-        ['id'=>'eg-wing', 'name'=>'EG Wing Gundam', 'image'=>'img/kits/eg-wing.jpg', 'hover_image'=>'img/kits/eg-wing-hover.jpg', 'price'=>'RM 42'],
-        ['id'=>'eg-nu', 'name'=>'EG Nu Gundam', 'image'=>'img/kits/eg-nu.jpg', 'hover_image'=>'img/kits/eg-nu-hover.jpg', 'price'=>'RM 42'],
-        ['id'=>'eg-rx78-2', 'name'=>'EG RX-78-2 Gundam', 'image'=>'img/kits/eg-rx78-2.jpg', 'hover_image'=>'img/kits/eg-rx78-2-hover.jpg', 'price'=>'RM     40'],
+        kit('eg-wing', 'EG Wing Gundam', 50),
+        kit('eg-nu', 'EG Nu Gundam', 50),
+        kit('eg-rx78-2', 'EG RX-78-2 Gundam', 50),
     ],
     'hg' => [
-        ['id'=>'hg-freedom', 'name'=>'HG Mighty Strike Freedom Gundam', 'image'=>'img/kits/hg-freedom.jpg', 'hover_image'=>'img/kits/hg-freedom-hover.jpg', 'price'=>'RM 95'],
-        ['id'=>'hg-destiny', 'name'=>'HG Destiny Gundam ', 'image'=>'img/kits/hg-destiny.jpg', 'hover_image'=>'img/kits/hg-destiny-hover.jpg', 'price'=>'RM 260'],
-        ['id'=>'hg-justice', 'name'=>'HG Infinite Justice Gundam', 'image'=>'img/kits/hg-justice.jpg', 'hover_image'=>'img/kits/hg-justice-hover.jpg', 'price'=>'RM 98'],
-        ['id'=>'hg-exia-r2', 'name'=>'HG Gundam Exia R2', 'image'=>'img/kits/hg-exia-r2.jpg', 'hover_image'=>'img/kits/hg-exia-r2-hover.jpg', 'price'=>'RM 56'],
-        ['id'=>'hg-o', 'name'=>'HG O Gundam', 'image'=>'img/kits/hg-o.jpg', 'hover_image'=>'img/kits/hg-o-hover.jpg', 'price'=>'RM 56'],
-
-    ],  
+        kit('hg-freedom', 'HG Mighty Strike Freedom Gundam', 100),
+        kit('hg-destiny', 'HG Destiny Gundam', 260),
+        kit('hg-justice', 'HG Infinite Justice Gundam', 100),
+        kit('hg-exia-r2', 'HG Gundam Exia R2', 60),
+        kit('hg-o', 'HG O Gundam', 60),
+        kit('hg-00-seven-sword', 'HG Gundam 00 Seven Sword/G', 80),
+        kit('hg-lightning-bw', 'HGBF Gundam Lightning Black Warrior', 80),
+        kit('hg-kamiki-burning', 'HGBF Kamiki Burning Gundam', 80),
+        kit('hg-sengoku-astray', 'HGBF Sengoku Astray Gundam', 80),
+        kit('hg-astray-no-name', 'HGBD Gundam Astray No-Name', 80),
+        kit('hg-00-sky', 'HGBD Gundam 00 Sky (Higher Than Sky Phase)', 80),
+        kit('hg-wing-zero-honoo', 'HGBF Wing Gundam Zero Honoo', 80),
+        kit('hguc-super-gundam', 'HGUC Super Gundam', 80),
+        kit('hguc-zeta', 'HGUC Zeta Gundam', 80),
+        kit('hguc-chars-zaku', 'HGUC Char\'s Zaku II', 80),
+        kit('hguc-banshee', 'HGUC Unicorn Gundam 02 Banshee (Destroy Mode)', 80),
+        kit('hguc-mk2', 'HGUC RX-178 Gundam Mk-II (A.E.U.G.)', 80),
+        kit('hguc-dijeh', 'HGUC Dijeh', 80),
+        kit('hguc-v2-assault-buster', 'HGUC V2 Assault Buster Gundam', 80),
+        kit('hguc-ground-type', 'HGUC RX-79[G] Gundam Ground Type', 80),
+        kit('hg-double-x', 'HGAW Gundam Double X', 80),
+        kit('hgac-deathscythe-hell', 'HGAC Gundam Deathscythe Hell', 100),
+        kit('hg-altron', 'HGAC Altron Gundam', 100),
+        kit('hg-load-astray-omega', 'HGCE Load Astray Ω', 100),
+        kit('hg-uraven', 'HGBD:R Uraven Gundam', 80),
+        kit('hg-flauros', 'HGIBO Gundam Flauros', 60),
+        kit('hg-grimgerde', 'HGIBO Gundam Grimgerde', 80),
+    ],
     'rg' => [
-        ['id'=>'rg-epyon', 'name'=>'RG Gundam Epyon', 'image'=>'img/kits/rg-epyon.jpg', 'hover_image'=>'img/kits/rg-epyon-hover.jpg', 'price'=>'RM 147'],
-        ['id'=>'rg-wing', 'name'=>'RG Wing Gundam Zero', 'image'=>'img/kits/rg-wing.jpg', 'hover_image'=>'img/kits/rg-wing-hover.jpg', 'price'=>'RM 148'],
+        kit('rg-epyon', 'RG Gundam Epyon', 150),
+        kit('rg-wing', 'RG Wing Gundam Zero', 150),
+        kit('rg-exia', 'RG Gundam Exia', 150),
+        kit('rg-hi-nu', 'RG Hi-Nu Gundam', 200),
+        kit('rg-impulse', 'RG Impulse Gundam', 150),
+        kit('rg-god', 'RG God Gundam', 150),
+        kit('rg-banshee-norn', 'RG Unicorn Gundam 02 Banshee Norn', 150),
+        kit('rg-crossbone-x1', 'RG Crossbone Gundam X1', 150),
     ],
     're100' => [
-        ['id'=>'re-nightingale', 'name'=>'RE/100 Nightingale', 'image'=>'img/kits/re-nightingale.jpg', 'hover_image'=>'img/kits/re-nightingale-hover.jpg', 'price'=>'RM 299'],
+        kit('re-nightingale', 'RE/100 Nightingale', 300),
     ],
     'fm' => [
-        ['id'=>'fm-aerial', 'name'=>'FM Gundam Aerial', 'image'=>'img/kits/fm-aerial.jpg', 'hover_image'=>'img/kits/fm-aerial-hover.jpg', 'price'=>'RM 175'],
+        kit('fm-aerial', 'FM Gundam Aerial', 200),
     ],
     'mg' => [
-        ['id'=>'mg-ex-s', 'name'=>'MG Ex-S Gundam', 'image'=>'img/kits/mg-ex-s.jpg', 'hover_image'=>'img/kits/mg-ex-s-hover.jpg', 'price'=>'RM 460'],
+        kit('mg-ex-s', 'MG Ex-S Gundam', 600),
+        kit('mg-deathscythe-hell-ew', 'MG Gundam Deathscythe Hell EW', 160),
+        kit('mg-zz-ver-ka', 'MG ZZ Gundam Ver.Ka', 200),
+        kit('mg-full-armor-ver-ka', 'MG Full Armor Gundam Ver.Ka', 250),
+        kit('mg-f91', 'MG Gundam F91 Ver.2.0', 150),
+        kit('mg-vidar', 'MG Gundam Vidar', 160),
+        kit('mg-wing-zero-ew-ver-ka', 'MG Wing Gundam Zero EW Ver.Ka', 200),
+        kit('mg-mk-v', 'MG Gundam Mk-V', 300),
     ],
     'pg' => [
-        ['id'=>'pg-unleashed', 'name'=>'PG Unleashed RX-78-2 Gundam', 'image'=>'img/kits/pg-unleashed.jpg', 'hover_image'=>'img/kits/pg-unleashed-hover.jpg', 'price'=>'RM 1,000'],
+        kit('pg-unleashed', 'PG Unleashed RX-78-2 Gundam', 1500),
     ],
     'sd' => [
-        ['id'=>'sd-cs-rx78', 'name'=>'SDCS RX-78-2 Gundam', 'image'=>'img/kits/sd-cs-rx78.jpg', 'hover_image'=>'img/kits/sd-cs-rx78-hover.jpg', 'price'=>'RM 35'],
+        kit('sd-cs-rx78', 'SDCS RX-78-2 Gundam', 40),
+        kit('sd-cs-zeta', 'SDCS Zeta Gundam', 40),
+        kit('sd-00-diver-ace', 'SD Gundam 00 Diver Ace', 40),
+        kit('sd-cs-phoenix', 'SDCS Phoenix Gundam', 70),
+        kit('sd-cs-banshee-set', 'SDCS Unicorn Gundam 02 Banshee (Destroy Mode) & Banshee Norn Parts Set', 70),
+        kit('sd-bd-ex-valkylander', 'SDBD:R EX Valkylander', 100),
+        kit('sd-liu-bei', 'SD Gundam Sangoku Soketsuden Liu Bei Unicorn Gundam', 30),
+        kit('sd-guan-yu-yun-chang-v', 'SD Gundam Sangoku Soketsuden Guan Yu Yun Chang V Gundam', 30),
+        kit('sd-zhang-fei-god', 'SD Gundam Sangoku Soketsuden Zhang Fei God Gundam', 30),
+        kit('sd-gan-ning-crossbone', 'SD Gundam Sangoku Soketsuden Gan Ning Crossbone Gundam', 30),
+        kit('sd-sima-yi-destiny', 'SD Gundam Sangoku Soketsuden Sima Yi Destiny Gundam', 50),
     ],
 
-    // --- Figures ---
+        // --- Figures ---
     'robot-spirits' => [
-        ['id'=>'rs-rx78-anime', 'name'=>'The Robot Spirits RX-78-2 (A.N.I.M.E.)', 'image'=>'img/kits/rs-rx78-anime.jpg', 'hover_image'=>'img/kits/rs-rx78-anime-hover.jpg', 'price'=>'RM 240'],
+        kit('rs-rx78-anime', 'The Robot Spirits RX-78-2 (A.N.I.M.E.)', 250),
+        kit('rs-crossbone-x1-fc', 'The Robot Spirits Crossbone Gundam X1 Full Cloth', 250),
+        kit('rs-hyaku-shiki', 'The Robot Spirits Hyaku Shiki', 250),
+        kit('rs-exia', 'The Robot Spirits Gundam Exia', 250),
+        kit('rs-age1-spallow', 'The Robot Spirits Gundam AGE-1 Spallow', 100),
+        kit('rs-gm-sniper-ii', 'The Robot Spirits GM Sniper II', 250),
+        kit('rs-virsago-cb', 'The Robot Spirits Virsago Chest Break', 250),
+        kit('rs-00-qant-trans-am', 'The Robot Spirits 00 Qan[T] (Trans-Am Ver.)', 300),
     ],
     'metal-robot-spirits' => [
-        ['id'=>'mrs-barbatos-lupus', 'name'=>'Metal Robot Spirits Barbatos Lupus Rex', 'image'=>'img/kits/mrs-barbatos-lupus.jpg', 'hover_image'=>'img/kits/mrs-barbatos-lupus-hover.jpg', 'price'=>'RM1100'],
+        kit('mrs-barbatos-lupus', 'Metal Robot Spirits Barbatos Lupus Rex', 1000),
     ],
     'metal-build' => [
-        ['id'=>'mb-freedom', 'name'=>'Metal Build Freedom Gundam', 'image'=>'img/kits/mb-freedom.jpg', 'hover_image'=>'img/kits/mb-freedom-hover.jpg', 'price'=>'RM 1300'],
+        kit('mb-freedom', 'Metal Build Freedom Gundam', 1500),
     ],
     'nxedge-style' => [
-        ['id'=>'nx-xi', 'name'=>'NXEDGE STYLE Xi Gundam', 'image'=>'img/kits/nx-xi.jpg', 'hover_image'=>'img/kits/nx-xi-hover.jpg', 'price'=>'RM 200'],
-        ['id'=>'nx-penelope', 'name'=>'NXEDGE STYLE Penelope ', 'image'=>'img/kits/nx-penelope.jpg', 'hover_image'=>'img/kits/nx-penelope-hover.jpg', 'price'=>'RM 200'],
-
+        kit('nx-xi', 'NXEDGE STYLE Xi Gundam', 200),
+        kit('nx-penelope', 'NXEDGE STYLE Penelope', 200),
     ],
     'gundam-universe' => [
-        ['id'=>'gu-wing-zero', 'name'=>'Gundam Universe Gquuuuuux ', 'image'=>'img/kits/gu-gqux.jpg', 'hover_image'=>'img/kits/gu-gqux-hover.jpg', 'price'=>'RM 150'],
+        kit('gu-wing-zero', 'Gundam Universe Gquuuuuux', 150, 'gu-gqux'),
     ],
     'gffmc' => [
-        ['id'=>'gffmc-wing-zero', 'name'=>'GFFMC Wing Gundam Snow White Prelude', 'image'=>'img/kits/gffmc-wing-zero.jpg', 'hover_image'=>'img/kits/gffmc-wing-zero-hover.jpg', 'price'=>'RM 1,350'],
+        kit('gffmc-wing-zero', 'GFFMC Wing Gundam Snow White Prelude', 1500),
     ],
     ];
+}
+
+// The catalogue as the pages use it. A hover photo whose file does not exist is dropped,
+// so that product simply has no hover effect.
+function product_catalogue(): array
+{
+    $catalogue = product_catalogue_raw();
+    foreach ($catalogue as $type => $list) {
+        foreach ($list as $i => $p) {
+            if (!is_file($p['hover_image'])) {
+                unset($catalogue[$type][$i]['hover_image']);
+            }
+        }
+    }
+    return $catalogue;
+}
+
+// True when the product's main photo file exists. The shop only lists products that have a
+// photo, so a kit appears as soon as its picture is saved in img/kits/.
+function product_has_photo(array $p): bool
+{
+    return is_file($p['image']);
 }
 
 // Kept as a plain variable too, because product_list.php loops over it.
@@ -79,8 +178,8 @@ function find_product(string $id): ?array
     return null;
 }
 
-// "RM 1,350" / "RM1100" / "RM     40"  ->  1350.00 / 1100.00 / 40.00
+// The price as a number, for working out an order total.
 function product_price(array $product): float
 {
-    return (float)preg_replace('/[^0-9.]/', '', $product['price']);
+    return (float)$product['amount'];
 }

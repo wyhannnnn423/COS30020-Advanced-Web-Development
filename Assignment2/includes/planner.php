@@ -19,6 +19,22 @@ const GRADES = [
     'Perfect Grade'  => ['hours' => 40, 'surface' => 8.0, 'price' => 1000, 'level' => 5],
 ];
 
+// The shop groups in data_products.php that are model kits, and the grade each one means in
+// the Kit Recommender. Figures, Metal Build and so on are not model kits, so they are not here.
+const TYPE_GRADE = [
+    'eg' => 'Entry Grade', 'hg' => 'High Grade', 'rg' => 'Real Grade', 're100' => 'Re/100',
+    'fm' => 'Full Mechanics', 'mg' => 'Master Grade', 'pg' => 'Perfect Grade', 'sd' => 'SD',
+];
+
+// smart_feature_table.item_name holds at most 50 characters, a few shop names are longer.
+function short_kit_name(string $name): string
+{
+    $name = trim($name);
+    $name = str_replace('Sangoku Soketsuden ', 'Sangoku ', $name);
+    $name = str_replace('Unicorn Gundam 02 Banshee (Destroy Mode) & Banshee Norn Parts Set', 'Banshee Destroy Mode + Norn Set', $name);
+    return mb_strlen($name) <= 50 ? $name : rtrim(mb_substr($name, 0, 49)) . '…';
+}
+
 // Skill level: hardest grade they can handle, and how fast they build.
 const SKILLS = [
     'beginner'     => ['label' => 'Beginner',     'max_level' => 2, 'speed' => 1.5],

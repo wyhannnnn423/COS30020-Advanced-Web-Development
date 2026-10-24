@@ -193,32 +193,29 @@ function seed_smart_features(mysqli $db): void
     if (!table_is_empty($db, 'smart_feature_table')) {
         return;
     }
+    require_once __DIR__ . '/../data_products.php';
+    require_once __DIR__ . '/planner.php';
 
-    // name, category, image, pdf, status
-    $rows = [
-        ['RX-78-2 Gundam', 'Entry Grade', 'img/kits/eg-rx78-2.jpg', 'smart_feature_description/eg-rx78-2.pdf', 'approved'],
-        ['Wing Gundam', 'Entry Grade', 'img/kits/eg-wing.jpg', 'smart_feature_description/eg-wing.pdf', 'approved'],
-        ['Nu Gundam', 'Entry Grade', 'img/kits/eg-nu.jpg', 'smart_feature_description/eg-nu.pdf', 'approved'],
-        ['SDCS RX-78-2 Gundam', 'SD', 'img/kits/sd-cs-rx78.jpg', 'smart_feature_description/sd-cs-rx78.pdf', 'approved'],
-        ['Mighty Strike Freedom Gundam', 'High Grade', 'img/kits/hg-freedom.jpg', 'smart_feature_description/hg-freedom.pdf', 'approved'],
-        ['Destiny Gundam', 'High Grade', 'img/kits/hg-destiny.jpg', 'smart_feature_description/hg-destiny.pdf', 'approved'],
-        ['Infinite Justice Gundam', 'High Grade', 'img/kits/hg-justice.jpg', 'smart_feature_description/hg-justice.pdf', 'approved'],
-        ['Gundam Exia Repair II', 'High Grade', 'img/kits/hg-exia-r2.jpg', 'smart_feature_description/hg-exia-r2.pdf', 'pending'],
-        ['O Gundam', 'High Grade', 'img/kits/hg-o.jpg', 'smart_feature_description/hg-o.pdf', 'rejected'],
-        ['Gundam Aerial', 'Full Mechanics', 'img/kits/fm-aerial.jpg', 'smart_feature_description/fm-aerial.pdf', 'approved'],
-        ['Gundam Epyon', 'Real Grade', 'img/kits/rg-epyon.jpg', 'smart_feature_description/rg-epyon.pdf', 'approved'],
-        ['Wing Gundam Zero', 'Real Grade', 'img/kits/rg-wing.jpg', 'smart_feature_description/rg-wing.pdf', 'approved'],
-        ['Nightingale', 'Re/100', 'img/kits/re-nightingale.jpg', 'smart_feature_description/re-nightingale.pdf', 'approved'],
-        ['Ex-S Gundam', 'Master Grade', 'img/kits/mg-ex-s.jpg', 'smart_feature_description/mg-ex-s.pdf', 'approved'],
-        ['Unleashed RX-78-2 Gundam', 'Perfect Grade', 'img/kits/pg-unleashed.jpg', 'smart_feature_description/pg-unleashed.pdf', 'approved'],
-    ];
+    // Every model kit in the shop (see data_products.php) is also a kit in the Kit Recommender.
+    // Two are left pending / rejected on purpose so the admin Kits page has something to review.
+    $status_of = ['hg-exia-r2' => 'pending', 'hg-o' => 'rejected'];
 
     $stmt = $db->prepare(
         'INSERT INTO smart_feature_table (item_name, item_category, item_image, description_file, status) VALUES (?, ?, ?, ?, ?)'
     );
-    foreach ($rows as [$name, $cat, $img, $pdf, $status]) {
-        $stmt->bind_param('sssss', $name, $cat, $img, $pdf, $status);
-        $stmt->execute();
+    foreach (product_catalogue_raw() as $type => $list) {
+        if (!isset(TYPE_GRADE[$type])) {
+            continue;
+        }
+        foreach ($list as $p) {
+            $name     = short_kit_name($p['name']);
+            $category = TYPE_GRADE[$type];
+            $image    = $p['image'];
+            $pdf      = 'smart_feature_description/' . $p['id'] . '.pdf';
+            $status   = $status_of[$p['id']] ?? 'approved';
+            $stmt->bind_param('sssss', $name, $category, $image, $pdf, $status);
+            $stmt->execute();
+        }
     }
 }
 
@@ -327,7 +324,8 @@ function seed_product_stock(mysqli $db): void
     $stmt = $db->prepare('INSERT INTO product_stock (product_id, stock, available) VALUES (?, ?, ?)');
     foreach (product_catalogue() as $list) {
         foreach ($list as $p) {
-            [$stock, $available] = $special[$p['id']] ?? [10, 1];
+            // models from the owner's own collection ('stock' => 1) are single pieces
+            [$stock, $available] = $special[$p['id']] ?? [$p['stock'] ?? 10, 1];
             $stmt->bind_param('sii', $p['id'], $stock, $available);
             $stmt->execute();
         }
