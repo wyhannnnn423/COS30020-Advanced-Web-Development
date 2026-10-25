@@ -36,7 +36,7 @@ include 'header.php';
 
         <section class="about-section">
             <h2>What tasks have I completed?</h2>
-            <p class="marker-note">Quick links for marker. Log in as <strong>admin@swin.edu.my / admin</strong> for the admin pages, or as <strong>andrew.kuan@example.com / User@1234</strong> for the user pages.</p>
+            <p class="marker-note">Quick links for marker. Log in as <strong>admin@swin.edu.my / admin</strong> for the admin pages, or as <strong>yanhanwong@swin.edu.my / User@1234</strong> for the user pages.</p>
             <ul class="about-list">
                 <li>Part 1 — Database and five tables with dummy data, created automatically (<a href="includes/setup.php">includes/setup.php</a>, run through <a href="includes/db.php">includes/db.php</a>)</li>
                 <li>Task 2.1 — Registration (<a href="registration.php">registration.php</a>)</li>

@@ -14,3 +14,11 @@ function move_user_records(mysqli $db, string $old_email, string $new_email): vo
         $stmt->execute();
     }
 }
+
+// A public page about a member (member.php) is addressed by this token, not by the email,
+// so a visitor can open a poster's page without ever seeing their email address.
+// The same value is worked out inside MySQL with SHA2(LOWER(email), 256).
+function member_token(string $email): string
+{
+    return hash('sha256', strtolower($email));
+}

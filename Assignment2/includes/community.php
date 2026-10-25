@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/accounts.php';
 // includes/community.php
 // Turns a community_table row into the array shape the A1 templates already use.
 
@@ -15,5 +16,6 @@ function community_post_from_row(array $row): array
         'image'   => (!empty($row['contribution_image']) && is_file($row['contribution_image']))
                         ? $row['contribution_image'] : 'img/banner/community.jpg',
         'caption' => $row['caption'] ?? '',
+        'member'  => !empty($row['email']) ? member_token($row['email']) : '',   // '' = no public page
     ];
 }

@@ -12,6 +12,7 @@ $user = $stmt->get_result()->fetch_assoc();
 
 require_once 'includes/bookings.php';
 require_once 'includes/orders.php';
+require_once 'includes/accounts.php';
 $my_bookings = fetch_my_bookings($db, $_SESSION['email']);
 
 // This user's orders (from order_table), newest first
@@ -51,13 +52,23 @@ include 'header.php';
                 <li><strong>Date of Birth</strong><span><?= $user['dob'] ? htmlspecialchars($user['dob']) : 'Not set' ?></span></li>
                 <li><strong>Gender</strong><span><?= htmlspecialchars($user['gender']) ?></span></li>
                 <li><strong>Hometown</strong><span><?= htmlspecialchars($user['hometown']) ?></span></li>
-                <?php if (!empty($user['resume_path']) && is_file($user['resume_path'])): ?>
-                <li><strong>Build Portfolio</strong><span><a href="<?= htmlspecialchars($user['resume_path']) ?>" target="_blank">View PDF</a></span></li>
-                <?php endif; ?>
             </ul>
+
+            <!-- Build Portfolio: everybody can see it on your public page too -->
+            <div class="portfolio-box">
+                <h3>Build Portfolio</h3>
+                <?php if (!empty($user['resume_path']) && is_file($user['resume_path'])): ?>
+                    <object data="<?= htmlspecialchars($user['resume_path']) ?>#toolbar=0" type="application/pdf" class="portfolio-frame">
+                        <a href="<?= htmlspecialchars($user['resume_path']) ?>" target="_blank">Open the portfolio (PDF)</a>
+                    </object>
+                <?php else: ?>
+                    <p class="bookings-empty">No portfolio yet. Add a PDF of your builds in <a href="update_profile.php">Edit Profile</a>.</p>
+                <?php endif; ?>
+            </div>
 
             <div class="profile-links">
                 <a href="update_profile.php" class="card-btn">Edit Profile</a>
+                <a href="member.php?u=<?= member_token($_SESSION['email']) ?>" class="card-btn secondary-btn">My Public Page</a>
                 <a href="main_menu.php" class="card-btn secondary-btn">Main Menu</a>
             </div>
         </div>

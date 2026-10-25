@@ -31,7 +31,11 @@ include 'header.php';
 
             <div class="post-meta">
                 <div class="post-avatar"><?= htmlspecialchars($post['initial']) ?></div>
-                <span class="post-user"><?= htmlspecialchars($post['user']) ?></span>
+                <?php if ($post['member'] !== ''): ?>
+                    <a class="post-user post-user-link" href="member.php?u=<?= $post['member'] ?>"><?= htmlspecialchars($post['user']) ?></a>
+                <?php else: ?>
+                    <span class="post-user"><?= htmlspecialchars($post['user']) ?></span>
+                <?php endif; ?>
             </div>
 
             <p class="detail-caption"><?= htmlspecialchars($post['caption']) ?></p>

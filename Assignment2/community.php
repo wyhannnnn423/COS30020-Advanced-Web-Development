@@ -48,21 +48,27 @@ include 'header.php';
 <section class="post-grid" id="postGrid">
     <?php foreach ($contributions as $post_id => $post): ?>
         <!-- Card anchor target enabled via unique post ID -->
-        <a href="community_detail.php?id=<?= urlencode((string)$post_id) ?>" 
-           id="post-<?= htmlspecialchars((string)$post_id) ?>" 
-           class="post-card" 
-           data-category="<?= htmlspecialchars($post['tag']) ?>">
+        <div id="post-<?= htmlspecialchars((string)$post_id) ?>"
+             class="post-card"
+             data-category="<?= htmlspecialchars($post['tag']) ?>">
+            <!-- Invisible link that covers the whole card, so the whole card opens the post -->
+            <a class="post-card-link" href="community_detail.php?id=<?= urlencode((string)$post_id) ?>"
+               aria-label="<?= htmlspecialchars($post['title']) ?>"></a>
             <img src="<?= htmlspecialchars($post['image']) ?>" alt="<?= htmlspecialchars($post['title']) ?>">
             <div class="post-card-body">
                 <div class="post-meta">
                     <div class="post-avatar"><?= htmlspecialchars($post['initial']) ?></div>
-                    <span class="post-user"><?= htmlspecialchars($post['user']) ?></span>
+                    <?php if ($post['member'] !== ''): ?>
+                        <a class="post-user post-user-link" href="member.php?u=<?= $post['member'] ?>"><?= htmlspecialchars($post['user']) ?></a>
+                    <?php else: ?>
+                        <span class="post-user"><?= htmlspecialchars($post['user']) ?></span>
+                    <?php endif; ?>
                     <span class="post-tag"><?= htmlspecialchars($post['tag']) ?></span>
                 </div>
                 <h3 class="post-title"><?= htmlspecialchars($post['title']) ?></h3>
                 <p class="post-caption"><?= htmlspecialchars($post['caption']) ?></p>
             </div>
-        </a>
+        </div>
     <?php endforeach; ?>
 </section>
 
