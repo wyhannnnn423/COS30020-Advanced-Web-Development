@@ -107,12 +107,11 @@ include 'header.php';
 
         <section class="about-section">
             <h2>Video Presentation</h2>
-            <p>Link: <a href="https://youtu.be/SO1gt2uGhgc" target="_blank" rel="noopener">[EDIT: replace with your Assignment 2 YouTube link]</a></p>
             
             <iframe 
                 width="560" 
                 height="315" 
-                src="https://www.youtube.com/embed/SO1gt2uGhgc?cc_load_policy=0&iv_load_policy=3&rel=0" 
+                src="https://www.youtube.com/embed/y-IzN2ka2GQ?si=l0BdK6NJUsqZKmYu"  
                 title="Demo Video" 
                 frameborder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
