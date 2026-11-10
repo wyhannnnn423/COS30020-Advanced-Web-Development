@@ -122,7 +122,7 @@ include 'header_admin.php';
                         <?php endif; ?>
                     </td>
                     <td><?= htmlspecialchars(trim($p['name'])) ?><br><span class="form-hint"><?= htmlspecialchars($p['id']) ?><?= product_has_photo($p) ? '' : ' &middot; hidden in the shop until its photo is added' ?></span></td>
-                    <td><?= htmlspecialchars(trim($p['price'])) ?></td>
+                    <td><?= htmlspecialchars(trim($p['price'])) ?><br><span class="form-hint"><?= htmlspecialchars($p['price_jpy']) ?></span></td>
                     <td>
                         <?php if (!$s['available']): ?>
                             <span class="status-badge status-rejected">Switched off</span>
