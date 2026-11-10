@@ -52,6 +52,7 @@ include 'header.php';
                 <li>Task 4.5 — About Page (<a href="about.php">about.php</a>)</li>
                 <li>Task 5.1 — Smart Feature: Kit Recommender (<a href="smart_feature.php">smart_feature.php</a>)</li>
                 <li>Extra — Shop checkout with QR payment, proof upload and order tracking (<a href="order_track.php">order_track.php</a>, <a href="manage_orders.php">manage_orders.php</a>)</li>
+                <li>Extra — Kit prices in Japanese yen converted to ringgit with a live exchange rate (<a href="product_list.php?type=hg">product_list.php</a>), and a spray-paint weather indicator (<a href="smart_feature.php">smart_feature.php</a>)</li>
                 <li>Extra — Community contributions from users, approved by an admin (<a href="community_add.php">community_add.php</a>)</li>
                 <li>Assignment 1 pages carried over: <a href="index.php">index.php</a>, <a href="series.php">series.php</a>, <a href="community.php">community.php</a>, <a href="activity_reg.php">activity_reg.php</a></li>
             </ul>
@@ -85,6 +86,8 @@ include 'header.php';
             <h2>What extension features or extra challenges did I attempt?</h2>
             <ul class="about-list">
                 <li>A shop checkout: delivery details, a payment QR code, proof-of-payment upload, an order tracking timeline for the customer, and an admin page to verify payments and ship orders.</li>
+                <li>Live exchange rates: kit prices are stored in Japanese yen and converted to ringgit with the Frankfurter API (includes/currency.php). The rate is fetched with cURL and cached for an hour, and if the API cannot be reached the last known rate is used, so the shop never breaks. Orders store the ringgit price at the time of purchase.</li>
+                <li>A weather API in the Kit Recommender and the product list: a floating icon uses the Open-Meteo API to show whether today's humidity and rain make it a good day to spray paint, with a hover tooltip (includes/weather.php). The result is cached for an hour and the icon is simply hidden if the API fails.</li>
                 <li>A Build Planner in the Kit Recommender: from skill level, finish and budget it works out suitable kits, build time, supplies needed (markers, primer, paint, topcoat in ml) and an estimated total cost.</li>
                 <li>Stock control for the shop: an admin sets how many of each product are in stock or switches a product off, the shop shows "Sold out" or "Only 2 left", and ordering takes stock off automatically (and puts it back when an unshipped order is deleted).</li>
                 <li>Users can contribute community posts and kits, and an admin approves or rejects them before they go live.</li>
@@ -101,6 +104,7 @@ include 'header.php';
             <h2>What frameworks or third-party libraries did I use?</h2>
             <ul class="about-list">
                 <li>Google Fonts (Rajdhani, Inter) — web fonts, loaded via CDN link</li>
+                <li>Two external web APIs, called from PHP with cURL and needing no API key: Frankfurter (JPY to MYR exchange rate) and Open-Meteo (weather for Kuching)</li>
                 <li>No CSS or JavaScript framework — all styling and interactivity is hand-written CSS3 and vanilla JavaScript (no jQuery, Bootstrap, React, etc.)</li>
             </ul>
         </section>
