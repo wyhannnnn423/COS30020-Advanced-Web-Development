@@ -203,6 +203,8 @@ include 'header.php';
     </section>
 
     <p class="smart-contribute">Know a kit that is missing? <a href="smart_feature_add.php">Contribute one</a>.</p>
+
+    <?php include 'includes/weather_widget.php'; ?>
 </main>
 
 <?php include 'footer.php'; ?>
