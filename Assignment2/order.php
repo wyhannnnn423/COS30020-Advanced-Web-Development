@@ -124,7 +124,7 @@ include 'header.php';
             <?php if (product_has_photo($product)): ?><img src="<?= htmlspecialchars($product['image']) ?>" alt=""><?php endif; ?>
             <div>
                 <strong><?= htmlspecialchars(trim($product['name'])) ?></strong>
-                <span><?= money(product_price($product)) ?> each<?= stock_label($stock) !== '' ? ' &middot; ' . htmlspecialchars(stock_label($stock)) : '' ?></span>
+                <span><?= money(product_price($product)) ?> each (<?= htmlspecialchars($product['price_jpy']) ?>)<?= stock_label($stock) !== '' ? ' &middot; ' . htmlspecialchars(stock_label($stock)) : '' ?></span>
             </div>
         </div>
 
