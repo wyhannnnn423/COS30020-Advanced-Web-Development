@@ -67,6 +67,8 @@ $back_anchor = in_array($type, $figure_types, true) ? 'cat-collector-figures' : 
 <main class="page products-page">
 <?php if ($type_name && count($list) > 0): ?>
 
+    <p class="rate-note">Official prices are in Japanese yen and converted to RM at today's rate (<?= htmlspecialchars(rate_note()) ?>, updated hourly).</p>
+
     <div class="products-grid">
         <?php foreach ($list as $product): ?>
         <?php if (!product_has_photo($product)) { continue; } // no photo yet: not shown in the shop ?>
@@ -90,6 +92,7 @@ $back_anchor = in_array($type, $figure_types, true) ? 'cat-collector-figures' : 
            <div class="product-card-body">
                 <h3><?= htmlspecialchars($product['name']); ?></h3>
                 <span class="product-price"><?= htmlspecialchars($product['price']); ?></span>
+                <span class="product-price-jpy"><?= htmlspecialchars($product['price_jpy']); ?></span>
                 <?php if ($buyable): ?>
                     <a href="order.php?id=<?= urlencode($product['id']) ?>" class="card-btn">Buy</a>
                 <?php else: ?>
@@ -114,4 +117,5 @@ $back_anchor = in_array($type, $figure_types, true) ? 'cat-collector-figures' : 
     
 </main>
 
+<?php include 'includes/weather_widget.php'; ?>
 <?php include 'footer.php'; ?>
