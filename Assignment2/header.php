@@ -16,7 +16,6 @@
         session_start();
     }
 
-
     $current_page = basename($_SERVER['PHP_SELF']);
     // Admins get their own menu page and have no profile page.
     $is_admin     = (($_SESSION['type'] ?? '') === 'admin');
@@ -64,6 +63,10 @@
             </div>
             
             <a href="community.php" class="<?= in_array($current_page, ['community.php', 'community_detail.php'], true) ? 'active' : ''; ?>">Community</a>
+
+            <!-- Added Order & Recommend pages from Main Menu -->
+            <a href="order_track.php" class="<?= in_array($current_page, ['order_track.php', 'order_detail.php'], true) ? 'active' : ''; ?>">My Orders</a>
+            <a href="smart_feature.php" class="<?= in_array($current_page, ['smart_feature.php', 'smart_feature_add.php'], true) ? 'active' : ''; ?>">Kit Recommender</a>
 
             <!-- Sliding underline indicator (desktop only) -->
             <span class="nav-indicator"></span>
@@ -156,3 +159,4 @@
     </div>
     <?php endif; ?>
 </body>
+</html>

@@ -2255,7 +2255,9 @@ footer a {
     margin-bottom: 1.25rem;
 }
 
+
 /* Yen price shown under the RM price: the official Japanese price the RM figure is converted from */
+
 .products-page .product-card-body .product-price-jpy {
     align-self: flex-start;
     font-size: 0.8rem;
@@ -2264,7 +2266,9 @@ footer a {
     margin-bottom: 1.25rem;
 }
 
+
 /* Exchange-rate note at the top of the product list */
+
 .products-page .rate-note {
     font-size: 0.85rem;
     color: #8a96a8;
